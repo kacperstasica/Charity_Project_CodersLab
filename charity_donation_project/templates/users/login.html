@@ -16,8 +16,9 @@
     <h2>Zaloguj się</h2>
     <form method="POST">
         {% csrf_token %}
+        {{ form.errors }}
         {% for field in form %}
-        <div class="form-group">
+            <div class="form-group">
             {{ field }}
         </div>
         {% endfor %}

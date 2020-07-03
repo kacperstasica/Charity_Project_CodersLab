@@ -21,11 +21,10 @@ from django.contrib.auth import views as auth_views
 from charity import views as charity_view
 from users import views as users_view
 
-from users.forms import UserLoginForm
 
 urlpatterns = [
     path('', charity_view.LandingPageView.as_view(), name='home'),
-    path('login/', auth_views.LoginView.as_view(template_name='users/login.html', authentication_form=UserLoginForm), name='login'),
+    path('login/', users_view.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('register/', users_view.RegisterView.as_view(), name='register'),
     path('add_donation/', charity_view.AddDonationView.as_view(), name='add-donation'),

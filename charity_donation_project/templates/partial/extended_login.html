@@ -3,7 +3,11 @@
 {% if user.is_authenticated %}
 <ul class="nav--actions">
     <li class="logged-user">
-        Witaj Agata
+        {% if user.first_name %}
+        Witaj {{ user.first_name }}
+        {% else %}
+        Witaj admin
+        {% endif %}
         <ul class="dropdown">
             <li><a href="#">Profil</a></li>
             <li><a href="#">Ustawienia</a></li>
