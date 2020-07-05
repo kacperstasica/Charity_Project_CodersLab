@@ -1,10 +1,14 @@
 from django.db import models
+from django.db.models import Sum
 
 from users.models import CustomUser
 
 
 class Category(models.Model):
     name = models.CharField(max_length=124)
+
+    def __str__(self):
+        return self.name
 
 
 class Institution(models.Model):
@@ -25,6 +29,9 @@ class Institution(models.Model):
     )
     category = models.ManyToManyField(Category)
 
+    def __str__(self):
+        return f'{self.name} ({self.type})'
+
 
 class Donation(models.Model):
     quantity = models.IntegerField()
@@ -38,3 +45,21 @@ class Donation(models.Model):
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
+    @classmethod
+    def get_quantity(cls):
+        quantity = cls.objects.all().aggregate(Sum('quantity')).get('quantity__sum')
+        if quantity is None:
+            return '0'
+        return quantity
+
+    # @classmethod
+    # def number_of_supported_institutions(cls):
+    #     institutions = cls.objects.all().aggregate(Sum('institution')).get('institution__sum')
+    #     if institutions is None:
+    #         return '0'
+    #     return institutions
+
+    # @classmethod
+    # def institution_counter(cls):
+    #     return cls.institution
