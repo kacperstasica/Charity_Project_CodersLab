@@ -33,6 +33,13 @@ class Institution(models.Model):
         return f'{self.name} ({self.type})'
 
 
+    class Meta:
+        verbose_name = 'Institution'
+        verbose_name_plural = 'Institutions'
+
+
+
+
 class Donation(models.Model):
     quantity = models.IntegerField()
     categories = models.ManyToManyField(Category)
@@ -52,14 +59,3 @@ class Donation(models.Model):
         if quantity is None:
             return '0'
         return quantity
-
-    # @classmethod
-    # def number_of_supported_institutions(cls):
-    #     institutions = cls.objects.all().aggregate(Sum('institution')).get('institution__sum')
-    #     if institutions is None:
-    #         return '0'
-    #     return institutions
-
-    # @classmethod
-    # def institution_counter(cls):
-    #     return cls.institution

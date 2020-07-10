@@ -28,5 +28,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('register/', users_view.RegisterView.as_view(), name='register'),
     path('add_donation/', charity_view.AddDonationView.as_view(), name='add-donation'),
+    path('profil/', users_view.ProfileView.as_view(), name='profile'),
     path('admin/', admin.site.urls),
 ]

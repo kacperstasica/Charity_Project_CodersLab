@@ -1,7 +1,8 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as DjangoLoginView
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 
 from .forms import UserRegisterForm, UserLoginForm
 from .models import CustomUser
@@ -25,3 +26,15 @@ class LoginView(DjangoLoginView):
             if not user_exists:
                 return redirect('register')
 
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    model = CustomUser
+    template_name = 'users/profile.html'
+
+
+    # def get(self, request):
+    #     user = self.request.user
+    #     context = {
+    #         'user': user
+    #     }
+    #     return render(request, 'users/profile.html', context)
