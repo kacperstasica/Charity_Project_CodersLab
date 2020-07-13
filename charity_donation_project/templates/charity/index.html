@@ -86,11 +86,16 @@
             </li>
           {% endfor %}
         </ul>
+
         {% if page_obj %}
         <ul class="help--slides-pagination">
-          <li><a href="?page=1" class="btn btn--small btn--without-border active" data-page="{{ page_obj.number }}">{{ page_obj.number }}</a></li>
-          <li><a href="?page={{ page_obj.next_page_number }}" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
+          <li><a href="{{ page_obj.number }}" class="btn btn--small btn--without-border active" data-page="1">{{ page_obj.number }}</a></li>
+          {% if page.obj.has_previous %}
+          <li><a href="{{ page_obj.previous_page_number }}" class="btn btn--small btn--without-border active" data-page="1">{{ page_obj.previous_page_number }}</a></li>
+          {% endif %}
+          {% if page_obj.has_next %}
+          <li><a href="?page={{ page_obj.next_page_number }}" class="btn btn--small btn--without-border" data-page="{{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+          {% endif %}
         </ul>
         {% endif %}
       </div>

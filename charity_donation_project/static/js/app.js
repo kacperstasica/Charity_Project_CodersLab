@@ -60,10 +60,10 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: callback to page change event
      */
     changePage(e) {
-      e.preventDefault();
-      const page = e.target.dataset.page;
+      //e.preventDefault();
+      //const page = e.target.dataset.page;
 
-      console.log(page);
+      //console.log(page);
     }
   }
   const helpSection = document.querySelector(".help");
@@ -222,6 +222,25 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.innerText = this.currentStep;
 
       // TODO: Validation
+      if (this.currentStep == 3) {
+        var checkboxes = document.querySelectorAll("input[name=categories]");
+        var selectedCategoryIds = [];
+        for (var i=0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                selectedCategoryIds.push(checkboxes[i].value)
+                console.log(selectedCategoryIds);
+
+            }
+        }
+        var institutions = document.querySelectorAll('input[name=organization]');
+        var divs = document.querySelectorAll('.form-group form-group--checkbox')
+        for (var i=0; i < institutions.length; i++) {
+            if (!institutions[i].dataset.categoryIds.includes(selectedCategoryIds)) {
+                institutions[i].parentElement.parentElement.style.display = 'none';
+            }
+        }
+      }
+
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
@@ -234,6 +253,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
+
       // TODO: get data from inputs and show them in summary
     }
 
@@ -243,9 +263,10 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: validation, send data to server
      */
     submit(e) {
-//      e.preventDefault();
+      e.preventDefault();
       this.currentStep++;
       this.updateForm();
+
     }
   }
   const form = document.querySelector(".form--steps");

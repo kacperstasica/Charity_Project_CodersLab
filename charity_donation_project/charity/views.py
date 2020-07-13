@@ -1,8 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 
 from .models import Donation, Institution, Category
 from .forms import AddDonationForm
@@ -17,9 +18,9 @@ class LandingPageView(View):
             list_of_donated_institutions.append(donation.institution)
         number_of_institutions = len(set(list_of_donated_institutions))
 
-        foundations = Institution.objects.get_queryset().filter(type='FND').order_by('id')
+        foundations = Institution.objects.filter(type='FND')
 
-        paginator = Paginator(foundations, 5)
+        paginator = Paginator(foundations, 1)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
@@ -48,19 +49,17 @@ class AddDonationView(LoginRequiredMixin, View):
     def get(self, request):
         ctx = {
             'categories': Category.objects.all(),
-
+            'institutions': Institution.objects.all(),
+            'donations': Donation.objects.all(),
         }
         return render(request, 'charity/form.html', ctx)
 
     def post(self, request):
         form = AddDonationForm(request.POST)
-        print(request.POST)
-
         if form.is_valid():
-            form.cleaned_data['categories']
-            print(form.cleaned_data)
-        print(form.errors)
-
+            form.save()
         return render(request, 'charity/form-confirmation.html')
 
 
+# class ConfirmationView(LoginRequiredMixin, TemplateView):
+#     template_name = 'charity/form-confirmation.html'

@@ -1,10 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, TemplateView
 
-from .forms import UserRegisterForm, UserLoginForm
+from .forms import UserRegisterForm, UserLoginForm, CustomUserChangeForm
 from .models import CustomUser
 
 
@@ -32,9 +34,18 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'users/profile.html'
 
 
-    # def get(self, request):
-    #     user = self.request.user
-    #     context = {
-    #         'user': user
-    #     }
-    #     return render(request, 'users/profile.html', context)
+class CustomUserUpdateView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        form = CustomUserChangeForm(instance=request.user)
+        context = {
+            'form': form,
+        }
+        return render(request, 'users/edit_profile.html', context)
+
+    def post(self, request):
+        u_form = CustomUserChangeForm(request.POST, instance=request.user)
+        if u_form.is_valid():
+            u_form.save()
+            messages.success(request, 'Twoje dane zostały zaktualizowane!')
+            return redirect('users:profile')

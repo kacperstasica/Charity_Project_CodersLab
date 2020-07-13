@@ -32,12 +32,14 @@ class Institution(models.Model):
     def __str__(self):
         return f'{self.name} ({self.type})'
 
+    @property
+    def category_ids(self):
+        return ','.join([str(x.id) for x in self.category.all()])
+
 
     class Meta:
         verbose_name = 'Institution'
         verbose_name_plural = 'Institutions'
-
-
 
 
 class Donation(models.Model):
