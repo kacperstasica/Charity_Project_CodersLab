@@ -8,6 +8,7 @@ from django.views.generic import CreateView, TemplateView, ListView
 
 from .forms import UserRegisterForm, UserLoginForm, CustomUserChangeForm
 from .models import CustomUser
+from charity.models import Donation
 
 
 class RegisterView(CreateView):
@@ -30,7 +31,7 @@ class LoginView(DjangoLoginView):
 
 
 class ProfileView(LoginRequiredMixin, ListView):
-    model = CustomUser
+    model = Donation
     template_name = 'users/profile.html'
 
 
