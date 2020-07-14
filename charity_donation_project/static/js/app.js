@@ -228,18 +228,28 @@ document.addEventListener("DOMContentLoaded", function() {
         for (var i=0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
                 selectedCategoryIds.push(checkboxes[i].value)
-                console.log(selectedCategoryIds);
-
             }
         }
         var institutions = document.querySelectorAll('input[name=organization]');
-        var divs = document.querySelectorAll('.form-group form-group--checkbox')
         for (var i=0; i < institutions.length; i++) {
             if (!institutions[i].dataset.categoryIds.includes(selectedCategoryIds)) {
                 institutions[i].parentElement.parentElement.style.display = 'none';
             }
         }
       }
+// TODO: wersja z tablicami
+//        for (var i=0; i < institutions.length; i++) {
+//            currentInstitutionCategories.push(institutions[i].dataset.categoryIds)
+//        }
+//        var categoryIds = currentInstitutionCategories.filter(x => selectedCategoryIds.includes(x))
+//        if (categoryIds.length > 0) {
+//            console.log("Ta instytucja jest zaznaczona")
+//
+//        } else {
+//            console.log("Tę instytucję można schować")
+//            institutions.parentElement.parentElement.style.display = 'none';
+//        }
+//        }
 
 
       this.slides.forEach(slide => {
@@ -255,7 +265,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
       // TODO: get data from inputs and show them in summary
-    }
+          if (this.currentStep == 5) {
+            var bags = document.querySelector('input[name=bags]');
+            var summaryInstitution = document.getElementsByClassName('summary--text')[1]
+
+            var institutions = document.querySelectorAll('input[name=organization]');
+                for (var i=0; i < institutions.length; i++) {
+                    if (institutions[i].checked){
+                        var descr = institutions[i].nextElementSibling.nextElementSibling.children[0].innerText
+                        summaryInstitution.innerText = descr
+                    }
+            }
+
+            var summaryBags = document.getElementsByClassName('summary--text')[0]
+            summaryBags.innerText = bags.value + ' worki/ów'
+
+            var street = document.querySelector('input[name=address]');
+            var city = document.querySelector('input[name=city]');
+            var postcode = document.querySelector('input[name=postcode]');
+            var phone = document.querySelector('input[name=phone]');
+            var data = document.querySelector('input[name=data]');
+            var time = document.querySelector('input[name=time]');
+            var moreInfo = document.querySelector('textarea[name=more_info]');
+
+            document.getElementById('address').innerHTML = street.value;
+            document.getElementById('city').innerText = city.value;
+            document.getElementById('postcode').innerText = postcode.value;
+            document.getElementById('phone').innerText = phone.value;
+            document.getElementById('data').innerHTML = data.value;
+            document.getElementById('time').innerHTML = time.value;
+            document.getElementById('info').innerText = moreInfo.value;
+
+
+}
+}
 
     /**
      * Submit form

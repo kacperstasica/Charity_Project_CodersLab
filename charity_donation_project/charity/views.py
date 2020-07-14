@@ -18,19 +18,18 @@ class LandingPageView(View):
             list_of_donated_institutions.append(donation.institution)
         number_of_institutions = len(set(list_of_donated_institutions))
 
-        foundations = Institution.objects.filter(type='FND')
-
-        paginator = Paginator(foundations, 1)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+        # TODO: pagination
+        # paginator = Paginator(foundations, 1)
+        # page_number = request.GET.get('page')
+        # page_obj = paginator.get_page(page_number)
 
         ctx = {
             'bag_quantity': Donation.get_quantity(),
             'donated_institutions': number_of_institutions,
-            'foundations': foundations,
+            'foundations': Institution.objects.filter(type='FND'),
             'ngos': Institution.objects.filter(type='NGO'),
             'locals': Institution.objects.filter(type='LOC'),
-            'page_obj': page_obj,
+            # 'page_obj': page_obj,
         }
 
         return render(request, 'charity/index.html', ctx)
