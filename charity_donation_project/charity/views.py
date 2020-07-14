@@ -2,8 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, FormView
 
 from .models import Donation, Institution, Category
 from .forms import AddDonationForm
@@ -35,30 +36,34 @@ class LandingPageView(View):
         return render(request, 'charity/index.html', ctx)
 
 
-# class FoundationsListView(ListView):
-#     model = Institution
-#     template_name = 'charity/index.html'
-#     context_object_name = 'foundations'
-#     paginate_by = 3
-#     queryset = Institution.objects.filter(type='FND')
+class AddDonationView(LoginRequiredMixin, FormView):
+    form_class = AddDonationForm
+    success_url = reverse_lazy('confirmation')
+    template_name = 'charity/form.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print(form.data)
+        print('asdf')
+        print(form.errors)
+        return super().form_invalid(form)
+
+    # def get(self, request, *args, **kwargs):
+    #     ctx = {
+    #         'categories': Category.objects.all(),
+    #         'institutions': Institution.objects.all(),
+    #     }
+    #     return render(request, 'charity/form.html', ctx)
 
 
-class AddDonationView(LoginRequiredMixin, View):
-
-    def get(self, request):
-        ctx = {
-            'categories': Category.objects.all(),
-            'institutions': Institution.objects.all(),
-            'donations': Donation.objects.all(),
-        }
-        return render(request, 'charity/form.html', ctx)
-
-    def post(self, request):
-        form = AddDonationForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return render(request, 'charity/form-confirmation.html')
-
-
-# class ConfirmationView(LoginRequiredMixin, TemplateView):
-#     template_name = 'charity/form-confirmation.html'
+class ConfirmationView(LoginRequiredMixin, TemplateView):
+    template_name = 'charity/form-confirmation.html'

@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 selectedCategoryIds.push(checkboxes[i].value)
             }
         }
-        var institutions = document.querySelectorAll('input[name=organization]');
+        var institutions = document.querySelectorAll('input[name=institution]');
         for (var i=0; i < institutions.length; i++) {
             if (!institutions[i].dataset.categoryIds.includes(selectedCategoryIds)) {
                 institutions[i].parentElement.parentElement.style.display = 'none';
@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // TODO: get data from inputs and show them in summary
           if (this.currentStep == 5) {
-            var bags = document.querySelector('input[name=bags]');
+            var bags = document.querySelector('input[name=quantity]');
             var summaryInstitution = document.getElementsByClassName('summary--text')[1]
 
             var institutions = document.querySelectorAll('input[name=organization]');
@@ -282,11 +282,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
             var street = document.querySelector('input[name=address]');
             var city = document.querySelector('input[name=city]');
-            var postcode = document.querySelector('input[name=postcode]');
-            var phone = document.querySelector('input[name=phone]');
-            var data = document.querySelector('input[name=data]');
-            var time = document.querySelector('input[name=time]');
-            var moreInfo = document.querySelector('textarea[name=more_info]');
+            var postcode = document.querySelector('input[name=zip_code]');
+            var phone = document.querySelector('input[name=phone_number]');
+            var data = document.querySelector('input[name=pick_up_date]');
+            var time = document.querySelector('input[name=pick_up_time]');
+            var moreInfo = document.querySelector('textarea[name=pick_up_comment]');
 
             document.getElementById('address').innerHTML = street.value;
             document.getElementById('city').innerText = city.value;
@@ -295,10 +295,8 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('data').innerHTML = data.value;
             document.getElementById('time').innerHTML = time.value;
             document.getElementById('info').innerText = moreInfo.value;
-
-
-}
-}
+          }
+      }
 
     /**
      * Submit form
@@ -306,7 +304,6 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: validation, send data to server
      */
     submit(e) {
-      e.preventDefault();
       this.currentStep++;
       this.updateForm();
 

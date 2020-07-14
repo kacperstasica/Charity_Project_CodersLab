@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, ListView
 
 from .forms import UserRegisterForm, UserLoginForm, CustomUserChangeForm
 from .models import CustomUser
@@ -29,7 +29,7 @@ class LoginView(DjangoLoginView):
                 return redirect('register')
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(LoginRequiredMixin, ListView):
     model = CustomUser
     template_name = 'users/profile.html'
 

@@ -7,14 +7,12 @@ class AddDonationForm(forms.ModelForm):
 
     class Meta:
         model = Donation
-        fields = [
-            'categories',
-            'quantity',
-            'institution',
-            'address',
-            'city',
-            'zip_code',
-            'pick_up_date',
-            'pick_up_time',
-            'pick_up_comment',
-        ]
+        exclude = ('user', )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(AddDonationForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        self.instance.user = self.user
+        return super().save(commit)
