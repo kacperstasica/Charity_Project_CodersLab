@@ -230,27 +230,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 selectedCategoryIds.push(checkboxes[i].value)
             }
         }
+        console.log(selectedCategoryIds, 'selectedCateogryIds');
         var institutions = document.querySelectorAll('input[name=institution]');
         for (var i=0; i < institutions.length; i++) {
-            if (!institutions[i].dataset.categoryIds.includes(selectedCategoryIds)) {
+            var currentInstitutionCategories = institutions[i].dataset.categoryIds.split(',')
+            console.log(currentInstitutionCategories)
+            institutions[i].parentElement.parentElement.style.display = 'block';
+            if (!currentInstitutionCategories.filter(value => selectedCategoryIds.includes(value)).length) {
                 institutions[i].parentElement.parentElement.style.display = 'none';
             }
         }
       }
-// TODO: wersja z tablicami
-//        for (var i=0; i < institutions.length; i++) {
-//            currentInstitutionCategories.push(institutions[i].dataset.categoryIds)
-//        }
-//        var categoryIds = currentInstitutionCategories.filter(x => selectedCategoryIds.includes(x))
-//        if (categoryIds.length > 0) {
-//            console.log("Ta instytucja jest zaznaczona")
-//
-//        } else {
-//            console.log("Tę instytucję można schować")
-//            institutions.parentElement.parentElement.style.display = 'none';
-//        }
-//        }
-
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");

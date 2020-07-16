@@ -22,17 +22,17 @@
         Nazwisko: Brak</h2>
     {% endif %}
     <h2>E-mail: {{ user.email }}</h2>
-    <h2>
+    <h2>LISTA DOTACJI:</h2>
     {% for donation in object_list %}
         <h2>
         <p>Nazwa instytucji: {{ donation.institution }}</p>
         <p>Liczba worków: {{donation.quantity}}</p>
+        <p>Kategorie:</p>
         {% for category in donation.categories.all %}
-        <p>Kategorie: {{ category }}</p>
+        <p>- {{ category }}</p>
         {% endfor %}
         <p>Data odbioru: {{ donation.pick_up_date }}</p>
         </h2>
     {% endfor %}
-    </h2>
 </div>
 {% endblock content %}

@@ -47,14 +47,10 @@ class AddDonationView(LoginRequiredMixin, FormView):
         return kwargs
 
     def form_valid(self, form):
-        print(form.cleaned_data)
         form.save()
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form.data)
-        print('asdf')
-        print(form.errors)
         return super().form_invalid(form)
 
     # def get(self, request, *args, **kwargs):
