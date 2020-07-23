@@ -23,7 +23,7 @@
     {% endif %}
     <h2>E-mail: {{ user.email }}</h2>
     <h2>LISTA DOTACJI:</h2>
-    {% for donation in object_list %}
+    {% for donation in user.donation_set.all %}
         <h2>
         <p>Nazwa instytucji: {{ donation.institution }}</p>
         <p>Liczba worków: {{donation.quantity}}</p>

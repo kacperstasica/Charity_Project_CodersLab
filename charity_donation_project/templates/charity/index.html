@@ -87,11 +87,27 @@
           {% endfor %}
         </ul>
 
-        <ul class="help--slides-pagination">
-          <li><a href="{{ page_obj.number }}" class="btn btn--small btn--without-border active" data-page="1">{{ page_obj.number }}</a></li>
-          <li><a href="{{ page_obj.previous_page_number }}" class="btn btn--small btn--without-border active" data-page="1">{{ page_obj.previous_page_number }}</a></li>
-          <li><a href="?page={{ page_obj.next_page_number }}" class="btn btn--small btn--without-border" data-page="{{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-        </ul>
+<!--        <div class="pagination">-->
+<!--            <span class="step-links">-->
+<!--                {% if page_obj.has_previous %}-->
+<!--                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>-->
+<!--                {% endif %}-->
+
+<!--                <span class="current">-->
+<!--                  {{ page_obj.number }}-->
+<!--                </span>-->
+
+<!--                {% if page_obj.has_next %}-->
+<!--                    <a href="?page={{ page_obj.next_page_number }}">next</a>-->
+<!--                {% endif %}-->
+<!--            </span>-->
+<!--        </div>-->
+
+<!--        <ul class="help&#45;&#45;slides-pagination">-->
+<!--          <li><a href="" class="btn btn&#45;&#45;small btn&#45;&#45;without-border active" data-page="1"></a></li>-->
+<!--          <li><a href="{{ foundations.previous_page_number }}" class="btn btn&#45;&#45;small btn&#45;&#45;without-border active" data-page="1">{{ foundations.previous_page_number }}</a></li>-->
+<!--          <li><a href="?page={{ foundations.next_page_number }}" class="btn btn&#45;&#45;small btn&#45;&#45;without-border" data-page="{{ foundations.next_page_number }}">{{ foundations.next_page_number }}</a></li>-->
+<!--        </ul>-->
       </div>
 
 

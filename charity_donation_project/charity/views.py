@@ -20,17 +20,19 @@ class LandingPageView(View):
         number_of_institutions = len(set(list_of_donated_institutions))
 
         # TODO: pagination
-        # paginator = Paginator(foundations, 1)
-        # page_number = request.GET.get('page')
-        # page_obj = paginator.get_page(page_number)
+        foundations_list = Institution.objects.filter(type='FND').order_by('pk')
+        paginator = Paginator(foundations_list, 4)
+        page_number = request.GET.get('page')
+        # print(page_number)  # to nie dziala, page_number jest None - why?
+        # print(paginator.num_pages)
+        fund_pages = paginator.get_page(page_number)
 
         ctx = {
             'bag_quantity': Donation.get_quantity(),
             'donated_institutions': number_of_institutions,
-            'foundations': Institution.objects.filter(type='FND'),
+            'foundations': Institution.objects.filter(type='FND').order_by('pk'),
             'ngos': Institution.objects.filter(type='NGO'),
             'locals': Institution.objects.filter(type='LOC'),
-            # 'page_obj': page_obj,
         }
 
         return render(request, 'charity/index.html', ctx)

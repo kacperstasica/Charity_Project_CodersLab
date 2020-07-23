@@ -31,7 +31,7 @@ class LoginView(DjangoLoginView):
 
 
 class ProfileView(LoginRequiredMixin, ListView):
-    model = Donation
+    model = CustomUser
     template_name = 'users/profile.html'
 
 
