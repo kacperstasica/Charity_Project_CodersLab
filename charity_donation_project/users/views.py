@@ -3,12 +3,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import CreateView, TemplateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 
-from .forms import UserRegisterForm, UserLoginForm, CustomUserChangeForm
+from .decorators import confirm_password
+from .forms import UserRegisterForm, UserLoginForm, UserChangeNameForm, ConfirmPasswordForm
 from .models import CustomUser
-from charity.models import Donation
 
 
 class RegisterView(CreateView):
@@ -35,18 +36,30 @@ class ProfileView(LoginRequiredMixin, ListView):
     template_name = 'users/profile.html'
 
 
+@method_decorator(confirm_password, name='dispatch')
 class CustomUserUpdateView(LoginRequiredMixin, View):
 
     def get(self, request):
-        form = CustomUserChangeForm(instance=request.user)
+        form = UserChangeNameForm(instance=request.user)
         context = {
             'form': form,
         }
         return render(request, 'users/edit_profile.html', context)
 
     def post(self, request):
-        u_form = CustomUserChangeForm(request.POST, instance=request.user)
+        u_form = UserChangeNameForm(request.POST, instance=request.user)
         if u_form.is_valid():
             u_form.save()
             messages.success(request, 'Twoje dane zostały zaktualizowane!')
-            return redirect('users:profile')
+            return redirect('profile')
+
+
+class ConfirmPasswordView(UpdateView):
+    form_class = ConfirmPasswordForm
+    template_name = 'users/confirm_password.html'
+
+    def get_object(self):
+        return self.request.user
+
+    def get_success_url(self):
+        return self.request.get_full_path()
