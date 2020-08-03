@@ -36,7 +36,7 @@ class ProfileView(LoginRequiredMixin, ListView):
     template_name = 'users/profile.html'
 
 
-@method_decorator(confirm_password, name='dispatch')
+# @method_decorator(confirm_password, name='dispatch')
 class CustomUserUpdateView(LoginRequiredMixin, View):
 
     def get(self, request):
